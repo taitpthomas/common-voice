@@ -17,7 +17,7 @@ import './home.css';
 type HeroType = 'speak' | 'listen';
 
 export default function HomePage() {
-  const heroes = ['speak', 'listen'];
+  const heroes = ['listen', 'speak'];
   const { locale, user } = useTypedSelector(
     ({ locale, user }) => ({
       locale,
