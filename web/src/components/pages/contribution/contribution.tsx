@@ -356,16 +356,16 @@ class ContributionPage extends React.Component<Props, State> {
             </LocaleLink>
 
             <div className="links">
-              <Localized id="speak">
-                <LocaleNavLink
-                  className={getTrackClass('fs', `toggle-speak`)}
-                  to={demoMode ? URLS.DEMO_SPEAK : URLS.SPEAK}
-                />
-              </Localized>
               <Localized id="listen">
                 <LocaleNavLink
                   className={getTrackClass('fs', `toggle-listen`)}
                   to={demoMode ? URLS.DEMO_LISTEN : URLS.LISTEN}
+                />
+              </Localized>
+              <Localized id="speak">
+                <LocaleNavLink
+                  className={getTrackClass('fs', `toggle-speak`)}
+                  to={demoMode ? URLS.DEMO_SPEAK : URLS.SPEAK}
                 />
               </Localized>
             </div>
