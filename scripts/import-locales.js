@@ -9,6 +9,11 @@ const CONTRIBUTABLE_MIN_SENTENCES = 5000;
 const dataPath = path.join(__dirname, '..', 'locales');
 const localeMessagesPath = path.join(__dirname, '..', 'web', 'locales');
 
+function supportedLocale(item) {
+  const supported_locale = ['en', 'zh-CN', 'zh-HK', 'zh-TW'];
+  return supported_locale.includes(item.locale.code);
+}
+
 function saveDataJSON(name, data) {
   fs.writeFileSync(
     path.join(dataPath, name + '.json'),
@@ -39,6 +44,7 @@ async function fetchPontoonLanguages() {
     },
   });
   return data.project.localizations
+    .filter(supportedLocale)
     .map(({ totalStrings, approvedStrings, locale }) => ({
       code: locale.code,
       name: locale.name,
@@ -90,7 +96,10 @@ async function importPontoonLocales() {
   const languages = await fetchPontoonLanguages();
   await Promise.all([
     saveToMessages(languages),
-    saveDataJSON('all', languages.map(l => l.code)),
+    saveDataJSON(
+      'all',
+      languages.map(l => l.code)
+    ),
     saveDataJSON(
       'rtl',
       languages
