@@ -40,21 +40,17 @@ export default class Schema {
     const host = opts.host;
     const database = opts.database;
 
-    // create and grant user permissions
-    try {
-      await this.mysql.rootTransaction(
-        `CREATE USER '${username}'@'${host}' IDENTIFIED BY '${password}';`
-      );
+    // create user
+    await this.mysql.rootTransaction(
+      `CREATE USER IF NOT EXISTS '${username}'@'${host}' IDENTIFIED BY '${password}';`
+    );
 
-      await this.mysql.rootTransaction(
-        `GRANT SELECT, INSERT, UPDATE, DELETE
-       ON ${database}.* TO '${username}'@'${host}'; 
-       FLUSH PRIVILEGES;`
-      );
-    } catch (err) {
-      console.log('error name: ' + err.name);
-      console.log('error message: ' + err.message);
-    }
+    // grant user permissions
+    await this.mysql.rootTransaction(
+      `GRANT SELECT, INSERT, UPDATE, DELETE
+        ON ${database}.* TO '${username}'@'${host}'; 
+        FLUSH PRIVILEGES;`
+    );
 
     // Have the new user use the database.
     await this.mysql.query(`USE ${this.name};`);
